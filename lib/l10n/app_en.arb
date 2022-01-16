@@ -1,0 +1,7 @@
+{
+    "appTitle": "Bankroft' application!",
+    "home": "Home",
+    "setting": "Setting",
+    "modules_tencentcloud_name": "TencentCloud",
+    "modules_tencentcloud_desp": "Open or close TencentCloud lighthouse port"
+}

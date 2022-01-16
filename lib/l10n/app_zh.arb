@@ -1,0 +1,22 @@
+{
+    "appTitle": "Bankroft' application!",
+    "@AppTitle": {
+      "description": "Bankroft' application!"
+    },
+    "home": "首页",
+    "@home": {
+      "description": "Home"
+    },
+    "setting": "设置",
+    "@setting": {
+      "description": "Setting"
+    },
+    "modules_tencentcloud_name": "腾讯云",
+    "@modules_tencentcloud_name": {
+      "description": "腾讯云"
+    },
+    "modules_tencentcloud_desp": "打开或关闭腾讯云主机端口",
+    "@modules_tencentcloud_desp": {
+      "description": "打开或关闭腾讯云主机端口"
+    }
+}
