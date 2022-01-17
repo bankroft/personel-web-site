@@ -3,5 +3,10 @@
     "home": "Home",
     "setting": "Setting",
     "modules_tencentcloud_name": "TencentCloud",
-    "modules_tencentcloud_desp": "Open or close TencentCloud lighthouse port"
+    "modules_tencentcloud_desp": "Open or close TencentCloud lighthouse port",
+    "importSetting": "Import setting",
+    "exportSetting": "Export setting",
+    "deleteSetting": "Clear all settings",
+    "success": "Success",
+    "fail": "Fail"
 }

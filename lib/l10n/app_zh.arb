@@ -9,7 +9,7 @@
     },
     "setting": "设置",
     "@setting": {
-      "description": "Setting"
+      "description": "设置"
     },
     "modules_tencentcloud_name": "腾讯云",
     "@modules_tencentcloud_name": {
@@ -18,5 +18,25 @@
     "modules_tencentcloud_desp": "打开或关闭腾讯云主机端口",
     "@modules_tencentcloud_desp": {
       "description": "打开或关闭腾讯云主机端口"
+    },
+    "importSetting": "导入",
+    "@import": {
+      "description": "导入"
+    },
+    "exportSetting": "导出",
+    "@export": {
+      "description": "导出"
+    },
+    "deleteSetting": "清除",
+    "@deleteSetting": {
+      "description": "清除"
+    },
+    "success": "成功",
+    "@success": {
+      "description": "成功"
+    },
+    "fail":"失败",
+    "@fail": {
+      "description": "失败"
     }
 }
