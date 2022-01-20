@@ -9,7 +9,7 @@ import 'modules/modules.dart';
 
 void main() {
   runApp(ChangeNotifierProvider<LocalizationsState>(
-    create: (context) => LocalizationsState(),
+    create: (context) => LocalizationsState.init(context),
     child: const MyApp(),
   ));
 }

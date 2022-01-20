@@ -38,5 +38,17 @@
     "fail":"失败",
     "@fail": {
       "description": "失败"
+    },
+    "unknown":"未知",
+    "@unknown": {
+      "description": "未知"
+    },
+    "save":"保存",
+    "@save": {
+      "description": "保存"
+    },
+    "reload":"重新加载",
+    "@reload": {
+      "description": "重新加载"
     }
 }

@@ -41,6 +41,8 @@ dependencies:
   cupertino_icons: ^1.0.4
   shared_preferences: ^2.0.12
   motion_toast: ^2.1.0
+  crypto: ^3.0.1
+  dio: ^4.0.4
 
 dev_dependencies:
   flutter_test:

@@ -8,5 +8,8 @@
     "exportSetting": "Export setting",
     "deleteSetting": "Clear all settings",
     "success": "Success",
-    "fail": "Fail"
+    "fail": "Fail",
+    "unknown": "Unknown",
+    "save": "Save",
+    "reload": "Reload"
 }

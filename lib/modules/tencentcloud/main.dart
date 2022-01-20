@@ -1,7 +1,7 @@
+import 'package:bk_app/modules/tencentcloud/pages/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 
 import '../base.dart';
-// import './pages/main_page.dart';
 import 'config.dart';
 
 class Main extends BaseModule {
@@ -13,6 +13,6 @@ class Main extends BaseModule {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const BottomNavigation();
   }
 }
