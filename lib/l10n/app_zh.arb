@@ -50,5 +50,29 @@
     "reload":"重新加载",
     "@reload": {
       "description": "重新加载"
+    },
+    "add":"添加",
+    "@add": {
+      "description": "添加"
+    },
+    "cancel":"取消",
+    "@cancel": {
+      "description": "取消"
+    },
+    "protocol":"协议",
+    "@protocol": {
+      "description": "协议"
+    },
+    "description":"描述",
+    "@description": {
+      "description": "描述"
+    },
+    "port":"端口",
+    "@port": {
+      "description": "端口"
+    },
+    "selectProtocol":"选择协议",
+    "@selectProtocol": {
+      "description": "选择协议"
     }
 }

@@ -1,6 +1,7 @@
-import 'package:bk_app/modules/tencentcloud/utils/constants.dart';
+import '../utils/constants.dart';
 
 import '../models/common.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class Add extends StatefulWidget {
@@ -23,72 +24,68 @@ class _AddState extends State<Add> {
   String _selectedProtocol = '';
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Container(
-          padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 6.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          TextField(
+            decoration:
+                InputDecoration(labelText: AppLocalizations.of(context)!.port),
+            keyboardType: TextInputType.number,
+            controller: _portController,
+          ),
+          const SizedBox(height: 12.0),
+          DropdownButton<String>(
+            hint: Text(AppLocalizations.of(context)!.selectProtocol),
+            isExpanded: true,
+            items: _protocolSelectItems,
+            onChanged: (value) {
+              setState(() {
+                _selectedProtocol = value as String;
+              });
+            },
+            value: _selectedProtocol == "" ? null : _selectedProtocol,
+          ),
+          const SizedBox(height: 12.0),
+          TextField(
+            controller: _descpritionController,
+            decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.description),
+          ),
+          Row(
             children: <Widget>[
-              TextField(
-                decoration: const InputDecoration(labelText: "Port"),
-                keyboardType: TextInputType.number,
-                controller: _portController,
+              Expanded(
+                child: ElevatedButton(
+                  child: Text(AppLocalizations.of(context)!.add),
+                  onPressed: () {
+                    final tmp = int.tryParse(_portController.text) ?? -1;
+                    if (tmp < 0 || tmp > 65535) {
+                      return;
+                    } else if (_selectedProtocol == "") {
+                      return;
+                    } else {
+                      widget.onClick(Port(
+                        port: _portController.text,
+                        protocol: _selectedProtocol,
+                        description: _descpritionController.text,
+                        status: actionAccept,
+                      ));
+                    }
+                    Navigator.pop(context);
+                  },
+                ),
               ),
-              const SizedBox(height: 12.0),
-              DropdownButton<String>(
-                hint: const Text("Select Protocol"),
-                isExpanded: true,
-                items: _protocolSelectItems,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedProtocol = value as String;
-                  });
-                },
-                value: _selectedProtocol == "" ? null : _selectedProtocol,
-              ),
-              const SizedBox(height: 12.0),
-              TextField(
-                controller: _descpritionController,
-                decoration: const InputDecoration(labelText: "Describe"),
+              const SizedBox(width: 12.0),
+              Expanded(
+                child: ElevatedButton(
+                  child: Text(AppLocalizations.of(context)!.cancel),
+                  onPressed: () => Navigator.pop(context),
+                ),
               ),
             ],
           ),
-        ),
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: ElevatedButton(
-                child: Text('Add'),
-                onPressed: () {
-                  final tmp = int.tryParse(_portController.text) ?? -1;
-                  if (tmp < 0 || tmp > 65535) {
-                    return;
-                  } else if (_selectedProtocol == "") {
-                    return;
-                  } else {
-                    widget.onClick(Port(
-                      port: _portController.text,
-                      protocol: _selectedProtocol,
-                      description: _descpritionController.text,
-                      status: actionAccept,
-                    ));
-                  }
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-            const SizedBox(width: 12.0),
-            Expanded(
-              child: ElevatedButton(
-                child: Text('Cancel'),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ),
-          ],
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

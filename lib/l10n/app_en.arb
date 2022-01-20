@@ -11,5 +11,11 @@
     "fail": "Fail",
     "unknown": "Unknown",
     "save": "Save",
-    "reload": "Reload"
+    "reload": "Reload",
+    "add": "Add",
+    "cancel": "Cancel",
+    "port": "Port",
+    "protocol": "Protocol",
+    "description": "Description",
+    "selectProtocol": "Select protocol"
 }

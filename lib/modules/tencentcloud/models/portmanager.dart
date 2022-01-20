@@ -24,5 +24,9 @@ class PortManager {
     return _ports.values.toList();
   }
 
+  void remove(Port port) {
+    _ports.remove(port.id);
+  }
+
   int get count => _ports.length;
 }

@@ -1,13 +1,14 @@
 import 'dart:convert';
 
-import 'package:bk_app/modules/tencentcloud/utils/constants.dart';
-import 'package:bk_app/modules/tencentcloud/widgets/add.dart';
+import '../utils/constants.dart';
+import '../widgets/add.dart';
 
 import '../models/apiresponse.dart';
 import '../models/common.dart';
 import '../models/portmanager.dart';
 import 'package:dio/dio.dart';
 import 'package:motion_toast/motion_toast.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../config.dart';
 import '../services/api_service.dart';
@@ -77,16 +78,25 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final sortedPorts = PortManager().sortedPorts;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            builder: (BuildContext context) {
-              return Add(onClick: (port) => _open(port));
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.home),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  content: Add(
+                    onClick: (port) {
+                      _open(port);
+                    },
+                  ),
+                ),
+              );
             },
-          );
-        },
-        child: const Icon(Icons.add_outlined),
+          ),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: () async => reload(),
@@ -107,6 +117,12 @@ class _HomeState extends State<Home> {
         color: Colors.red[400],
         child: const Icon(Icons.delete_outlined),
       ),
+      onDismissed: (direction) async {
+        await _close(port);
+        PortManager().remove(port);
+        save();
+        setState(() {});
+      },
       key: Key(port.id),
       child: SwitchListTile(
         value: port.status == actionAccept ? true : false,
@@ -159,8 +175,8 @@ class _HomeState extends State<Home> {
         jsonEncode(cachePorts));
   }
 
-  void _open(Port port) {
-    ApiService().post(
+  Future<void> _open(Port port) async {
+    await ApiService().post(
       action: "CreateFirewallRules",
       body: {
         "InstanceId": _instanceId,
@@ -183,8 +199,8 @@ class _HomeState extends State<Home> {
     });
   }
 
-  void _close(Port port) {
-    ApiService().post(
+  Future<void> _close(Port port) async {
+    await ApiService().post(
       action: "DeleteFirewallRules",
       body: {
         "InstanceId": _instanceId,

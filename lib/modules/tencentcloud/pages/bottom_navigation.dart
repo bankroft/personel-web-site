@@ -43,12 +43,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
     );
   }
 
-  PreferredSizeWidget _buildAppBar() {
+  PreferredSizeWidget? _buildAppBar() {
     switch (_currentIndex) {
       case 0:
-        return AppBar(
-          title: Text(AppLocalizations.of(context)!.home),
-        );
+        return null;
       case 1:
         return AppBar(
           title: Text(AppLocalizations.of(context)!.setting),
