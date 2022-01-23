@@ -29,4 +29,8 @@ class PortManager {
   }
 
   int get count => _ports.length;
+
+  void clear() {
+    _ports.clear();
+  }
 }

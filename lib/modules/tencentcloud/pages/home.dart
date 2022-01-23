@@ -60,6 +60,10 @@ class _HomeState extends State<Home> {
   }
 
   void reload() {
+    PortManager().clear();
+    if (!configured) {
+      return;
+    }
     if (prefs.containsKey(
         buildSharedPreferenceKey(moduleKey, "CachePorts-$_instanceId"))) {
       final cachePorts = prefs.getString(
@@ -115,8 +119,56 @@ class _HomeState extends State<Home> {
     return Dismissible(
       background: Container(
         color: Colors.red[400],
-        child: const Icon(Icons.delete_outlined),
+        child: const Padding(
+          padding: EdgeInsets.only(left: 16.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Icon(
+              Icons.delete_outlined,
+              color: Colors.white,
+            ),
+          ),
+        ),
       ),
+      secondaryBackground: Container(
+        color: Colors.red[400],
+        child: const Padding(
+          padding: EdgeInsets.only(right: 16.0),
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Icon(
+              Icons.delete_outlined,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+      confirmDismiss: (direction) {
+        return showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text(AppLocalizations.of(context)!.delete),
+            content: Text(AppLocalizations.of(context)!
+                .modules_tencentcloud_deleteConfirm),
+            actions: [
+              ElevatedButton(
+                child: Text(AppLocalizations.of(context)!.cancel),
+                onPressed: () => Navigator.of(context).pop(false),
+              ),
+              ElevatedButton(
+                child: Text(
+                    AppLocalizations.of(context)!.modules_tencentcloud_confirm),
+                onPressed: () => Navigator.of(context).pop(true),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.resolveWith(
+                    (states) => Colors.red[400],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
       onDismissed: (direction) async {
         await _close(port);
         PortManager().remove(port);
@@ -124,17 +176,19 @@ class _HomeState extends State<Home> {
         setState(() {});
       },
       key: Key(port.id),
-      child: SwitchListTile(
-        value: port.status == actionAccept ? true : false,
+      child: ListTile(
         title: Text("${port.port} ${port.protocol}"),
         subtitle: Text(port.description),
-        onChanged: (value) {
-          if (value) {
-            _open(port);
-          } else {
-            _close(port);
-          }
-        },
+        trailing: Switch(
+          value: port.action == actionAccept ? true : false,
+          onChanged: (value) {
+            if (value) {
+              _open(port);
+            } else {
+              _close(port);
+            }
+          },
+        ),
       ),
     );
   }
@@ -192,7 +246,7 @@ class _HomeState extends State<Home> {
     ).then((Response response) {
       final resp = ApiResponse.fromJson(response.data);
       if (resp.isOk()) {
-        port.status = actionAccept;
+        port.action = actionAccept;
         PortManager().add(port);
         setState(() {});
       }
@@ -208,14 +262,14 @@ class _HomeState extends State<Home> {
           {
             "Protocol": port.protocol,
             "Port": port.port,
-            "Action": port.status,
+            "Action": port.action,
           }
         ]
       },
     ).then((response) {
       final resp = ApiResponse.fromJson(response.data);
       if (resp.isOk()) {
-        port.status = actionDrop;
+        port.action = actionDrop;
         PortManager().add(port);
         setState(() {});
       }

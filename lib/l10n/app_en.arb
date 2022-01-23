@@ -17,5 +17,8 @@
     "port": "Port",
     "protocol": "Protocol",
     "description": "Description",
-    "selectProtocol": "Select protocol"
+    "selectProtocol": "Select protocol",
+    "delete": "Delete",
+    "modules_tencentcloud_deleteConfirm": "Are you sure to delete this port?",
+    "modules_tencentcloud_confirm": "Confirm"
 }

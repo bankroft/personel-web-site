@@ -11,22 +11,22 @@ class Port {
   Port({
     required this.port,
     required this.protocol,
-    this.status = "",
+    this.action = actionAccept,
     this.description = '',
   });
   String port;
   String protocol;
-  String status;
+  String action;
   String description;
   Port.fromJson(Map<String, dynamic> json)
       : port = json['Port']!,
         protocol = json['Protocol']!,
-        status = json['Action'],
+        action = json['Action'],
         description = json['FirewallRuleDescription'] ?? "无";
   Map<String, dynamic> toJson() => {
         "Port": port,
         "Protocol": protocol,
-        "Action": status,
+        "Action": action,
         "FirewallRuleDescription": description,
       };
 

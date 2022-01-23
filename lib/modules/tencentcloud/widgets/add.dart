@@ -68,7 +68,7 @@ class _AddState extends State<Add> {
                         port: _portController.text,
                         protocol: _selectedProtocol,
                         description: _descpritionController.text,
-                        status: actionAccept,
+                        action: actionAccept,
                       ));
                     }
                     Navigator.pop(context);

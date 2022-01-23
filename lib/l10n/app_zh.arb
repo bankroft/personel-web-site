@@ -74,5 +74,17 @@
     "selectProtocol":"选择协议",
     "@selectProtocol": {
       "description": "选择协议"
+    },
+    "delete":"删除",
+    "@delete": {
+      "description": "删除"
+    },
+    "modules_tencentcloud_deleteConfirm":"确认删除端口",
+    "@modules_tencentcloud_deleteConfirm": {
+      "description": "确认删除端口"
+    },
+    "modules_tencentcloud_confirm":"确认",
+    "@modules_tencentcloud_confirm": {
+      "description": "确认"
     }
 }
