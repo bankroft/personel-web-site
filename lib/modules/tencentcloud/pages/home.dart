@@ -61,6 +61,7 @@ class _HomeState extends State<Home> {
 
   void reload() {
     PortManager().clear();
+    setState(() {});
     if (!configured) {
       return;
     }
@@ -71,7 +72,7 @@ class _HomeState extends State<Home> {
       final ports = jsonDecode(cachePorts) as List<dynamic>;
       for (var element in ports) {
         final port = Port.fromJson(element);
-        PortManager().add(port);
+        PortManager().add(port, isLocal: true);
       }
       setState(() {});
     }
@@ -180,7 +181,7 @@ class _HomeState extends State<Home> {
         title: Text("${port.port} ${port.protocol}"),
         subtitle: Text(port.description),
         trailing: Switch(
-          value: port.action == actionAccept ? true : false,
+          value: port.action == action.accept.name ? true : false,
           onChanged: (value) {
             if (value) {
               _open(port);
@@ -217,14 +218,15 @@ class _HomeState extends State<Home> {
       for (var item in firewallRuleSet) {
         PortManager().add(Port.fromJson(item));
       }
+      PortManager().updateLocalPortToClose();
       save();
       setState(() {});
     });
   }
 
-  void save() {
+  Future<bool> save() async {
     final cachePorts = PortManager().toJson();
-    prefs.setString(
+    return prefs.setString(
         buildSharedPreferenceKey(moduleKey, "CachePorts-$_instanceId"),
         jsonEncode(cachePorts));
   }
@@ -238,7 +240,7 @@ class _HomeState extends State<Home> {
           {
             "Protocol": port.protocol,
             "Port": port.port,
-            "Action": actionAccept,
+            "Action": action.accept.name,
             "FirewallRuleDescription": port.description,
           }
         ]
@@ -246,8 +248,9 @@ class _HomeState extends State<Home> {
     ).then((Response response) {
       final resp = ApiResponse.fromJson(response.data);
       if (resp.isOk()) {
-        port.action = actionAccept;
+        port.action = action.accept.name;
         PortManager().add(port);
+        save();
         setState(() {});
       }
     });
@@ -269,10 +272,11 @@ class _HomeState extends State<Home> {
     ).then((response) {
       final resp = ApiResponse.fromJson(response.data);
       if (resp.isOk()) {
-        port.action = actionDrop;
+        port.action = action.drop.name;
         PortManager().add(port);
         setState(() {});
       }
     });
+    await save();
   }
 }

@@ -11,9 +11,9 @@ class Port {
   Port({
     required this.port,
     required this.protocol,
-    this.action = actionAccept,
+    this.action = "",
     this.description = '',
-  });
+  }) : assert(action != "");
   String port;
   String protocol;
   String action;
