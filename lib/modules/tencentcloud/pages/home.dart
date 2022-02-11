@@ -59,7 +59,7 @@ class _HomeState extends State<Home> {
     });
   }
 
-  void reload() {
+  Future<void> reload() async {
     PortManager().clear();
     setState(() {});
     if (!configured) {
@@ -76,7 +76,7 @@ class _HomeState extends State<Home> {
       }
       setState(() {});
     }
-    _reloadFromNet();
+    await _reloadFromNet();
   }
 
   @override
@@ -104,7 +104,9 @@ class _HomeState extends State<Home> {
         ],
       ),
       body: RefreshIndicator(
-        onRefresh: () async => reload(),
+        onRefresh: () async {
+          await reload();
+        },
         child: ListView.separated(
           itemBuilder: (_, index) {
             return _buildListItem(sortedPorts[index]);
@@ -177,31 +179,29 @@ class _HomeState extends State<Home> {
         setState(() {});
       },
       key: Key(port.id),
-      child: ListTile(
+      child: SwitchListTile(
         title: Text("${port.port} ${port.protocol}"),
         subtitle: Text(port.description),
-        trailing: Switch(
-          value: port.action == action.accept.name ? true : false,
-          onChanged: (value) {
-            if (value) {
-              _open(port);
-            } else {
-              _close(port);
-            }
-          },
-        ),
+        value: port.action == action.accept.name ? true : false,
+        onChanged: (value) {
+          if (value) {
+            _open(port);
+          } else {
+            _close(port);
+          }
+        },
       ),
     );
   }
 
-  void _reloadFromNet() {
+  Future<void> _reloadFromNet() async {
     if (!configured) {
       MotionToast.error(
         description: const Text("TODO"),
       ).show(context);
       return;
     }
-    ApiService().post(
+    await ApiService().post(
       action: "DescribeFirewallRules",
       body: {
         "InstanceId": _instanceId,
