@@ -108,6 +108,7 @@ class _HomeState extends State<Home> {
           await reload();
         },
         child: ListView.separated(
+          physics: const BouncingScrollPhysics(),
           itemBuilder: (_, index) {
             return _buildListItem(sortedPorts[index]);
           },
