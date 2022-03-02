@@ -10,9 +10,10 @@ final Map<String, ModuleDefs> allmodulesMap = {
     route: '/modules/${tencentcloud_main.Main.name}',
     func: (context) => const tencentcloud_main.Main(),
     icon: 'assets/modules/tencentcloud/logo.png',
-    name: AppLocalizations.of(GlobalService.navigatorKey.currentState!.context)!
-        .modules_tencentcloud_name,
-    description:
+    name: () =>
+        AppLocalizations.of(GlobalService.navigatorKey.currentState!.context)!
+            .modules_tencentcloud_name,
+    description: () =>
         AppLocalizations.of(GlobalService.navigatorKey.currentState!.context)!
             .modules_tencentcloud_desp,
   ),

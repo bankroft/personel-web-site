@@ -1,4 +1,5 @@
 {
+    "language_display_name": "English",
     "appTitle": "Bankroft' application!",
     "home": "Home",
     "setting": "Setting",
@@ -20,5 +21,6 @@
     "selectProtocol": "Select protocol",
     "delete": "Delete",
     "modules_tencentcloud_deleteConfirm": "Are you sure to delete this port?",
-    "modules_tencentcloud_confirm": "Confirm"
+    "modules_tencentcloud_confirm": "Confirm",
+    "language": "Language"
 }

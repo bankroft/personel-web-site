@@ -17,8 +17,8 @@ class ModuleDefs {
   String route;
   Widget Function(BuildContext context) func;
   String? icon;
-  String name;
-  String? description;
+  String Function() name;
+  String Function()? description;
   ModuleDefs({
     required this.route,
     required this.func,

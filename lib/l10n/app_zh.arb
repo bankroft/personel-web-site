@@ -1,90 +1,95 @@
 {
-    "appTitle": "Bankroft' application!",
-    "@AppTitle": {
-      "description": "Bankroft' application!"
-    },
-    "home": "首页",
-    "@home": {
-      "description": "Home"
-    },
-    "setting": "设置",
-    "@setting": {
-      "description": "设置"
-    },
-    "modules_tencentcloud_name": "腾讯云",
-    "@modules_tencentcloud_name": {
-      "description": "腾讯云"
-    },
-    "modules_tencentcloud_desp": "打开或关闭腾讯云主机端口",
-    "@modules_tencentcloud_desp": {
-      "description": "打开或关闭腾讯云主机端口"
-    },
-    "importSetting": "导入",
-    "@import": {
-      "description": "导入"
-    },
-    "exportSetting": "导出",
-    "@export": {
-      "description": "导出"
-    },
-    "deleteSetting": "清除",
-    "@deleteSetting": {
-      "description": "清除"
-    },
-    "success": "成功",
-    "@success": {
-      "description": "成功"
-    },
-    "fail":"失败",
-    "@fail": {
-      "description": "失败"
-    },
-    "unknown":"未知",
-    "@unknown": {
-      "description": "未知"
-    },
-    "save":"保存",
-    "@save": {
-      "description": "保存"
-    },
-    "reload":"重新加载",
-    "@reload": {
-      "description": "重新加载"
-    },
-    "add":"添加",
-    "@add": {
-      "description": "添加"
-    },
-    "cancel":"取消",
-    "@cancel": {
-      "description": "取消"
-    },
-    "protocol":"协议",
-    "@protocol": {
-      "description": "协议"
-    },
-    "description":"描述",
-    "@description": {
-      "description": "描述"
-    },
-    "port":"端口",
-    "@port": {
-      "description": "端口"
-    },
-    "selectProtocol":"选择协议",
-    "@selectProtocol": {
-      "description": "选择协议"
-    },
-    "delete":"删除",
-    "@delete": {
-      "description": "删除"
-    },
-    "modules_tencentcloud_deleteConfirm":"确认删除端口",
-    "@modules_tencentcloud_deleteConfirm": {
-      "description": "确认删除端口"
-    },
-    "modules_tencentcloud_confirm":"确认",
-    "@modules_tencentcloud_confirm": {
-      "description": "确认"
-    }
+  "language_display_name": "中文",
+  "appTitle": "Bankroft' application!",
+  "@AppTitle": {
+    "description": "Bankroft' application!"
+  },
+  "home": "首页",
+  "@home": {
+    "description": "Home"
+  },
+  "setting": "设置",
+  "@setting": {
+    "description": "设置"
+  },
+  "modules_tencentcloud_name": "腾讯云",
+  "@modules_tencentcloud_name": {
+    "description": "腾讯云"
+  },
+  "modules_tencentcloud_desp": "打开或关闭腾讯云主机端口",
+  "@modules_tencentcloud_desp": {
+    "description": "打开或关闭腾讯云主机端口"
+  },
+  "importSetting": "导入",
+  "@import": {
+    "description": "导入"
+  },
+  "exportSetting": "导出",
+  "@export": {
+    "description": "导出"
+  },
+  "deleteSetting": "清除",
+  "@deleteSetting": {
+    "description": "清除"
+  },
+  "success": "成功",
+  "@success": {
+    "description": "成功"
+  },
+  "fail": "失败",
+  "@fail": {
+    "description": "失败"
+  },
+  "unknown": "未知",
+  "@unknown": {
+    "description": "未知"
+  },
+  "save": "保存",
+  "@save": {
+    "description": "保存"
+  },
+  "reload": "重新加载",
+  "@reload": {
+    "description": "重新加载"
+  },
+  "add": "添加",
+  "@add": {
+    "description": "添加"
+  },
+  "cancel": "取消",
+  "@cancel": {
+    "description": "取消"
+  },
+  "protocol": "协议",
+  "@protocol": {
+    "description": "协议"
+  },
+  "description": "描述",
+  "@description": {
+    "description": "描述"
+  },
+  "port": "端口",
+  "@port": {
+    "description": "端口"
+  },
+  "selectProtocol": "选择协议",
+  "@selectProtocol": {
+    "description": "选择协议"
+  },
+  "delete": "删除",
+  "@delete": {
+    "description": "删除"
+  },
+  "modules_tencentcloud_deleteConfirm": "确认删除端口",
+  "@modules_tencentcloud_deleteConfirm": {
+    "description": "确认删除端口"
+  },
+  "modules_tencentcloud_confirm": "确认",
+  "@modules_tencentcloud_confirm": {
+    "description": "确认"
+  },
+  "language": "语言",
+  "@language": {
+    "description": "语言"
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:bk_app/pages/bottom_navigation.dart';
 import 'package:bk_app/services/global_service.dart';
+import 'package:bk_app/services/sharedpreference_service.dart';
 import 'package:bk_app/states/l10nstates.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -14,8 +15,23 @@ void main() {
   ));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  Future<void> init() async {
+    await SharedPreferenceService().init();
+  }
 
   // This widget is the root of your application.
   @override

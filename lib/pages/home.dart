@@ -33,9 +33,9 @@ class Home extends StatelessWidget {
               )
             : const Icon(Icons.no_accounts_outlined),
       ),
-      title: Text(allmodulesList[index].name),
+      title: Text(allmodulesList[index].name()),
       subtitle: allmodulesList[index].description != null
-          ? Text(allmodulesList[index].description!)
+          ? Text(allmodulesList[index].description!())
           : null,
       trailing: const Icon(Icons.chevron_right),
       onTap: () {
