@@ -4,16 +4,17 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LocalizationsState extends ChangeNotifier {
   LocalizationsState() : _locale = AppLocalizations.supportedLocales.first;
+  bool _initialized = false;
 
-  LocalizationsState.init(BuildContext context) {
-    _locale = AppLocalizations.supportedLocales.first;
-    SharedPreferenceService().getString("LANGUAGE_CODE").then((value) {
-      if (value != null) {
-        _locale = Locale(value);
-      }
-      notifyListeners();
-    });
+  Future<void> init() async {
+    if (_initialized) return;
+    final value = await SharedPreferenceService().getString("LANGUAGE_CODE");
+    if (value != null) {
+      _locale = Locale(value);
+    }
+    _initialized = true;
   }
+
   late Locale _locale;
 
   Locale get locale => _locale;
