@@ -79,6 +79,7 @@ flutter:
   assets:
     - assets/icon/
     - assets/modules/tencentcloud/
+    - assets/modules/qrcode/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

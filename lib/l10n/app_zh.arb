@@ -91,5 +91,13 @@
   "language": "语言",
   "@language": {
     "description": "语言"
+  },
+  "modules_qrcode_name": "二维码",
+  "@modules_qrcode_name": {
+    "description": "二维码"
+  },
+  "modules_qrcode_desp": "扫描二维码",
+  "@modules_qrcode_desp": {
+    "description": "扫描二维码"
   }
 }

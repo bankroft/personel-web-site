@@ -22,5 +22,7 @@
     "delete": "Delete",
     "modules_tencentcloud_deleteConfirm": "Are you sure to delete this port?",
     "modules_tencentcloud_confirm": "Confirm",
-    "language": "Language"
+    "language": "Language",
+    "modules_qrcode_name": "QRCode",
+    "modules_qrcode_desp": "Scan qrcode"
 }
