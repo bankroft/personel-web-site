@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '/modules/qrcode/pages/scanner.dart';
+
 import '../base.dart';
 import 'config.dart';
 
@@ -17,9 +19,7 @@ class Main extends BaseModule {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.modules_qrcode_name),
       ),
-      body: const Center(
-        child: Text('TODO'),
-      ),
+      body: const Scanner(),
     );
   }
 }

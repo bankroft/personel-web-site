@@ -43,6 +43,7 @@ dependencies:
   motion_toast: ^2.1.0
   crypto: ^3.0.1
   dio: ^4.0.4
+  qr_code_scanner: ^1.0.0-alpha.1
 
 dev_dependencies:
   flutter_test:
