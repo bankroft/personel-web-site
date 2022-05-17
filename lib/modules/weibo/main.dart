@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '/modules/qrcode/pages/bottom_navigation.dart';
 import '../base.dart';
 import 'config.dart';
+import 'pages/hot_search.dart';
 
 class Main extends BaseModule {
   static get name {
@@ -13,6 +13,6 @@ class Main extends BaseModule {
 
   @override
   Widget build(BuildContext context) {
-    return const BottomNavigation();
+    return const HotSearch();
   }
 }

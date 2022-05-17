@@ -3,8 +3,8 @@
     "appTitle": "Bankroft' application!",
     "home": "Home",
     "setting": "Setting",
-    "modules_tencentcloud_name": "TencentCloud",
-    "modules_tencentcloud_desp": "Open or close TencentCloud lighthouse port",
+    "modules_tencentcloud_name": "Tencentcloud",
+    "modules_tencentcloud_desp": "Open or close Tencentcloud lighthouse port",
     "importSetting": "Import setting",
     "exportSetting": "Export setting",
     "deleteSetting": "Clear all settings",
@@ -24,5 +24,10 @@
     "modules_tencentcloud_confirm": "Confirm",
     "language": "Language",
     "modules_qrcode_name": "QRCode",
-    "modules_qrcode_desp": "Scan qrcode"
+    "modules_qrcode_desp": "Scan or Generate qrcode",
+    "modules_qrcode_scan": "Scan",
+    "modules_qrcode_generate": "Generate",
+    "modules_qrcode_image_pick": "Pick image",
+    "modules_weibo_name": "Weibo",
+    "modules_weibo_desp": "Weibo hot search"
 }
