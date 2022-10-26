@@ -88,6 +88,18 @@
   "@modules_tencentcloud_confirm": {
     "description": "确认"
   },
+  "modules_tencentcloud_notconfigured": "未设置参数",
+  "@modules_tencentcloud_notconfigured": {
+    "description": "未设置参数"
+  },
+  "modules_tencentcloud_opening": "正在开启...",
+  "@modules_tencentcloud_opening": {
+    "description": "开启端口"
+  },
+  "modules_tencentcloud_closing": "正在关闭...",
+  "@modules_tencentcloud_closing": {
+    "description": "关闭端口"
+  },
   "language": "语言",
   "@language": {
     "description": "语言"

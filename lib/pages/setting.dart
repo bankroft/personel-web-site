@@ -4,8 +4,8 @@ import 'package:bk_app/services/sharedpreference_service.dart';
 import 'package:bk_app/states/l10nstates.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:motion_toast/motion_toast.dart';
 import 'package:provider/provider.dart';
 
 class Setting extends StatefulWidget {
@@ -103,16 +103,12 @@ class _SettingState extends State<Setting> {
           result.forEach((key, value) {
             prefs.setString(key, value);
           });
-          MotionToast.success(
-            title: Text(AppLocalizations.of(context)!.importSetting),
-            description: Text(AppLocalizations.of(context)!.success),
-          ).show(context);
+          EasyLoading.showToast(
+              "${AppLocalizations.of(context)!.importSetting}: ${AppLocalizations.of(context)!.success}");
         });
       } catch (e) {
-        MotionToast.error(
-          title: Text(AppLocalizations.of(context)!.importSetting),
-          description: Text(AppLocalizations.of(context)!.fail),
-        ).show(context);
+        EasyLoading.showToast(
+            "${AppLocalizations.of(context)!.importSetting}: ${AppLocalizations.of(context)!.fail}");
       }
     }
   }
@@ -124,10 +120,8 @@ class _SettingState extends State<Setting> {
         data[item] = prefs.get(item);
       }
       Clipboard.setData(ClipboardData(text: jsonEncode(data))).then(
-        (value) => MotionToast.success(
-          title: Text(AppLocalizations.of(context)!.exportSetting),
-          description: Text(AppLocalizations.of(context)!.success),
-        ).show(context),
+        (value) => EasyLoading.showToast(
+            "${AppLocalizations.of(context)!.exportSetting}: ${AppLocalizations.of(context)!.success}"),
       );
     });
   }
@@ -135,10 +129,8 @@ class _SettingState extends State<Setting> {
   void _deleteSetting() {
     SharedPreferenceService().prefs.then((value) {
       value.clear();
-      MotionToast.success(
-        title: Text(AppLocalizations.of(context)!.deleteSetting),
-        description: Text(AppLocalizations.of(context)!.success),
-      ).show(context);
+      EasyLoading.showToast(
+          "${AppLocalizations.of(context)!.deleteSetting}: ${AppLocalizations.of(context)!.success}");
     });
   }
 }

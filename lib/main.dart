@@ -2,11 +2,15 @@ import 'package:bk_app/pages/bottom_navigation.dart';
 import 'package:bk_app/services/global_service.dart';
 import 'package:bk_app/services/sharedpreference_service.dart';
 import 'package:bk_app/states/l10nstates.dart';
+import 'package:bk_app/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'modules/modules.dart';
+
+const primaryColor = Color.fromARGB(255, 42, 96, 121);
 
 void main() {
   runApp(ChangeNotifierProvider<LocalizationsState>(
@@ -42,6 +46,7 @@ class _MyAppState extends State<MyApp> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return MaterialApp(
+              builder: EasyLoading.init(),
               navigatorKey: GlobalService.navigatorKey,
               onGenerateTitle: (BuildContext context) =>
                   AppLocalizations.of(context)!.appTitle,
@@ -49,12 +54,21 @@ class _MyAppState extends State<MyApp> {
               locale: value.locale,
               supportedLocales: AppLocalizations.supportedLocales,
               theme: ThemeData(
-                primarySwatch: Colors.blue,
+                primarySwatch: MaterialColor(
+                    primaryColor.value, getPrimarySwatch(primaryColor)),
+                scaffoldBackgroundColor:
+                    const Color.fromARGB(255, 242, 245, 250),
+                listTileTheme: ListTileThemeData(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                ),
+                appBarTheme: const AppBarTheme(
+                  elevation: 0.0,
+                ),
               ),
               routes: {
                 "/": (BuildContext context) => const BottomNavigation(),
-                // "/home": (BuildContext context) => const Home(),
-                // "/setting": (BuildContext context) => const Setting(),
               },
               onGenerateRoute: (RouteSettings settings) {
                 return MaterialPageRoute(

@@ -1,3 +1,4 @@
+import 'package:bk_app/widgets/mcard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import "package:html/parser.dart" show parse;
@@ -33,18 +34,18 @@ class _HotSearchState extends State<HotSearch> {
   Widget _buildBody() {
     return RefreshIndicator(
       onRefresh: () async => _getHotSearch(),
-      child: ListView.separated(
+      child: ListView.builder(
         itemBuilder: (context, index) {
-          return ListTile(
-            dense: true,
-            leading: Text("${_data[index].rank}"),
-            title: Text(_data[index].title),
-            subtitle: Text(_data[index].number.toString()),
-            trailing: const Icon(Icons.arrow_forward_ios),
-            onTap: () => _openUrl(_data[index].url, _data[index].title),
+          return MCard(
+            child: ListTile(
+              leading: Text("${_data[index].rank}"),
+              title: Text(_data[index].title),
+              subtitle: Text(_data[index].number.toString()),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () => _openUrl(_data[index].url, _data[index].title),
+            ),
           );
         },
-        separatorBuilder: (_, __) => const Divider(),
         itemCount: _data.length,
       ),
     );
