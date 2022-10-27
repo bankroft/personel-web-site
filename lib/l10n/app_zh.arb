@@ -104,6 +104,10 @@
   "@language": {
     "description": "语言"
   },
+  "selectLanguage": "请选择语言",
+  "@selectLanguage": {
+    "description": "选择语言"
+  },
   "modules_qrcode_name": "二维码",
   "@modules_qrcode_name": {
     "description": "二维码"

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bk_app/services/sharedpreference_service.dart';
 import 'package:bk_app/states/l10nstates.dart';
+import 'package:bk_app/widgets/mdropdownbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -16,7 +17,7 @@ class Setting extends StatefulWidget {
 }
 
 class _SettingState extends State<Setting> {
-  final List<DropdownMenuItem<Locale>> _languageItems = [];
+  final List<Map<String, String>> _languageItems = [];
   late final l10nState =
       Provider.of<LocalizationsState>(context, listen: false);
 
@@ -29,10 +30,10 @@ class _SettingState extends State<Setting> {
   Future<void> _init() async {
     for (final locale in AppLocalizations.supportedLocales) {
       final applocalizations = await AppLocalizations.delegate.load(locale);
-      _languageItems.add(
-        DropdownMenuItem(
-            child: Text(applocalizations.language_display_name), value: locale),
-      );
+      _languageItems.add({
+        "key": locale.languageCode,
+        "value": applocalizations.language_display_name
+      });
     }
     setState(() {});
   }
@@ -65,9 +66,8 @@ class _SettingState extends State<Setting> {
             ),
             label: Text(AppLocalizations.of(context)!.deleteSetting),
           ),
-          const Divider(),
+          const SizedBox(height: 8.0),
           _buildLocalSetting(context),
-          const Divider(),
         ],
       ),
     );
@@ -78,17 +78,20 @@ class _SettingState extends State<Setting> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(AppLocalizations.of(context)!.language),
-        DropdownButtonHideUnderline(
-          child: DropdownButton<Locale>(
-            value: l10nState.locale,
-            items: _languageItems,
-            onChanged: (Locale? locale) {
-              if (locale == null) {
-                return;
-              }
-              l10nState.locale = locale;
-            },
-          ),
+        const SizedBox(
+          height: 16.0,
+          child: VerticalDivider(thickness: 2.0),
+        ),
+        MDropdownButton(
+          hint: AppLocalizations.of(context)!.selectLanguage,
+          value: l10nState.locale.languageCode,
+          dropdownItems: _languageItems,
+          onChanged: (String? language) {
+            if (language == null) {
+              return;
+            }
+            l10nState.locale = Locale(language);
+          },
         ),
       ],
     );

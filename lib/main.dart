@@ -37,7 +37,6 @@ class _MyAppState extends State<MyApp> {
     await SharedPreferenceService().init();
   }
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return Consumer<LocalizationsState>(
@@ -65,6 +64,14 @@ class _MyAppState extends State<MyApp> {
                 ),
                 appBarTheme: const AppBarTheme(
                   elevation: 0.0,
+                ),
+                bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+                  elevation: 0.0,
+                ),
+                elevatedButtonTheme: ElevatedButtonThemeData(
+                  style: ButtonStyle(
+                    elevation: MaterialStateProperty.all<double>(0.0),
+                  ),
                 ),
               ),
               routes: {

@@ -26,6 +26,7 @@
     "modules_tencentcloud_opening": "Opening Port...",
     "modules_tencentcloud_closing": "Closing Port",
     "language": "Language",
+    "selectLanguage": "Please Select Language",
     "modules_qrcode_name": "QRCode",
     "modules_qrcode_desp": "Scan or Generate qrcode",
     "modules_qrcode_scan": "Scan",
