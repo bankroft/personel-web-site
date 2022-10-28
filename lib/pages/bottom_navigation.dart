@@ -12,7 +12,7 @@ class BottomNavigation extends StatefulWidget {
 
 class _BottomNavigationState extends State<BottomNavigation> {
   final List<Widget Function(BuildContext)> _nav = [
-    (BuildContext context) => const Home(),
+    (BuildContext context) => Home(key: UniqueKey()),
     (BuildContext context) => const Setting(),
   ];
   int _currentIndex = 0;

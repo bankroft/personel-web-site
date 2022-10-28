@@ -1,7 +1,8 @@
 import 'dart:convert';
 
+import 'package:bk_app/main.dart';
+import 'package:bk_app/services/global_service.dart';
 import 'package:bk_app/services/sharedpreference_service.dart';
-import 'package:bk_app/states/l10nstates.dart';
 import 'package:bk_app/widgets/mdropdownbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,8 +19,6 @@ class Setting extends StatefulWidget {
 
 class _SettingState extends State<Setting> {
   final List<Map<String, String>> _languageItems = [];
-  late final l10nState =
-      Provider.of<LocalizationsState>(context, listen: false);
 
   @override
   void initState() {
@@ -84,13 +83,14 @@ class _SettingState extends State<Setting> {
         ),
         MDropdownButton(
           hint: AppLocalizations.of(context)!.selectLanguage,
-          value: l10nState.locale.languageCode,
+          value: GlobalService.locale.languageCode,
           dropdownItems: _languageItems,
           onChanged: (String? language) {
             if (language == null) {
               return;
             }
-            l10nState.locale = Locale(language);
+            GlobalService.locale = Locale(language);
+            RestartWidget.restartApp(context);
           },
         ),
       ],
