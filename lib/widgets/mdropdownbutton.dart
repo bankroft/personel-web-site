@@ -61,7 +61,7 @@ class MDropdownButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    for (var item in this.dropdownItems) {
+    for (var item in dropdownItems) {
       assert(item.containsKey("key") && item.containsKey("value"));
     }
     return DropdownButtonHideUnderline(

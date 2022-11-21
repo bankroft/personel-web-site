@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
 
 class Setting extends StatefulWidget {
   const Setting({Key? key}) : super(key: key);
@@ -19,6 +18,7 @@ class Setting extends StatefulWidget {
 
 class _SettingState extends State<Setting> {
   final List<Map<String, String>> _languageItems = [];
+  final TextEditingController _settingsController = TextEditingController();
 
   @override
   void initState() {
@@ -44,6 +44,13 @@ class _SettingState extends State<Setting> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          TextField(
+            decoration: InputDecoration(
+                labelText: AppLocalizations.of(
+                        GlobalService.navigatorKey.currentState!.context)!
+                    .setting),
+            controller: _settingsController,
+          ),
           ElevatedButton.icon(
             onPressed: () => _importSetting(),
             icon: const Icon(Icons.archive_outlined),
@@ -98,10 +105,9 @@ class _SettingState extends State<Setting> {
   }
 
   void _importSetting() async {
-    ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
-    if (data != null && data.text != null) {
+    if (_settingsController.text.isNotEmpty) {
       try {
-        Map result = jsonDecode(data.text!);
+        Map result = jsonDecode(_settingsController.text);
         SharedPreferenceService().prefs.then((prefs) {
           result.forEach((key, value) {
             prefs.setString(key, value);

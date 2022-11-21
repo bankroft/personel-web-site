@@ -4,7 +4,8 @@ import 'package:intl/intl.dart';
 import "package:dio/dio.dart";
 import 'package:crypto/crypto.dart';
 
-const _host = 'lighthouse.tencentcloudapi.com';
+const _sourceHost = 'lighthouse.tencentcloudapi.com';
+const _host = 'tencentcloudapi.bankroft.cn:58443';
 
 class ApiService {
   static final ApiService _instance = ApiService._internal();
@@ -30,7 +31,7 @@ class ApiService {
     headers: {
       // 'Content-Type': 'application/json; charset=utf-8',
       'content-type': 'application/json; charset=utf-8',
-      'Host': _host,
+      'Host': _sourceHost,
       'X-TC-Region': 'ap-shanghai',
       'X-TC-Version': '2020-03-24',
       'X-TC-Language': 'zh-CN',
@@ -88,7 +89,7 @@ class CustomInterceptors extends InterceptorsWrapper {
     const service = 'lighthouse';
     var hashedRequestPayload = sha256hex(payload);
     final canonicalRequest =
-        'POST\n/\n\ncontent-type:application/json; charset=utf-8\nhost:$_host\n\ncontent-type;host\n$hashedRequestPayload';
+        'POST\n/\n\ncontent-type:application/json; charset=utf-8\nhost:$_sourceHost\n\ncontent-type;host\n$hashedRequestPayload';
     final credentialScope = '$date/$service/tc3_request';
     final hashedCanonicalRequest = sha256hex(canonicalRequest);
     final stringToSign =
