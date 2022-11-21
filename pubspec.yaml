@@ -43,10 +43,6 @@ dependencies:
   crypto: ^3.0.1
   dio: ^4.0.4
   image_picker: ^0.8.5
-  camera: ^0.9.4+21
-  dio_cookie_manager: ^2.0.0
-  html: ^0.15.0
-  webview_flutter: ^3.0.4
   empty_widget: ^0.0.5
   flutter_easyloading: ^3.0.5
   dropdown_button2: ^1.8.9
