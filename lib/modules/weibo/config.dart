@@ -1,0 +1,1 @@
+const moduleKey = "Weibo";

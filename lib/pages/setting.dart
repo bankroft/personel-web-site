@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:bk_app/main.dart';
+import 'package:bk_app/services/global_service.dart';
 import 'package:bk_app/services/sharedpreference_service.dart';
-import 'package:bk_app/states/l10nstates.dart';
+import 'package:bk_app/widgets/mdropdownbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:motion_toast/motion_toast.dart';
 import 'package:provider/provider.dart';
 
 class Setting extends StatefulWidget {
@@ -16,9 +18,7 @@ class Setting extends StatefulWidget {
 }
 
 class _SettingState extends State<Setting> {
-  final List<DropdownMenuItem<Locale>> _languageItems = [];
-  late final l10nState =
-      Provider.of<LocalizationsState>(context, listen: false);
+  final List<Map<String, String>> _languageItems = [];
 
   @override
   void initState() {
@@ -29,10 +29,10 @@ class _SettingState extends State<Setting> {
   Future<void> _init() async {
     for (final locale in AppLocalizations.supportedLocales) {
       final applocalizations = await AppLocalizations.delegate.load(locale);
-      _languageItems.add(
-        DropdownMenuItem(
-            child: Text(applocalizations.language_display_name), value: locale),
-      );
+      _languageItems.add({
+        "key": locale.languageCode,
+        "value": applocalizations.language_display_name
+      });
     }
     setState(() {});
   }
@@ -65,9 +65,8 @@ class _SettingState extends State<Setting> {
             ),
             label: Text(AppLocalizations.of(context)!.deleteSetting),
           ),
-          const Divider(),
+          const SizedBox(height: 8.0),
           _buildLocalSetting(context),
-          const Divider(),
         ],
       ),
     );
@@ -78,17 +77,21 @@ class _SettingState extends State<Setting> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(AppLocalizations.of(context)!.language),
-        DropdownButtonHideUnderline(
-          child: DropdownButton<Locale>(
-            value: l10nState.locale,
-            items: _languageItems,
-            onChanged: (Locale? locale) {
-              if (locale == null) {
-                return;
-              }
-              l10nState.locale = locale;
-            },
-          ),
+        const SizedBox(
+          height: 16.0,
+          child: VerticalDivider(thickness: 2.0),
+        ),
+        MDropdownButton(
+          hint: AppLocalizations.of(context)!.selectLanguage,
+          value: GlobalService.locale.languageCode,
+          dropdownItems: _languageItems,
+          onChanged: (String? language) {
+            if (language == null) {
+              return;
+            }
+            GlobalService.locale = Locale(language);
+            RestartWidget.restartApp(context);
+          },
         ),
       ],
     );
@@ -103,16 +106,12 @@ class _SettingState extends State<Setting> {
           result.forEach((key, value) {
             prefs.setString(key, value);
           });
-          MotionToast.success(
-            title: Text(AppLocalizations.of(context)!.importSetting),
-            description: Text(AppLocalizations.of(context)!.success),
-          ).show(context);
+          EasyLoading.showToast(
+              "${AppLocalizations.of(context)!.importSetting}: ${AppLocalizations.of(context)!.success}");
         });
       } catch (e) {
-        MotionToast.error(
-          title: Text(AppLocalizations.of(context)!.importSetting),
-          description: Text(AppLocalizations.of(context)!.fail),
-        ).show(context);
+        EasyLoading.showToast(
+            "${AppLocalizations.of(context)!.importSetting}: ${AppLocalizations.of(context)!.fail}");
       }
     }
   }
@@ -124,10 +123,8 @@ class _SettingState extends State<Setting> {
         data[item] = prefs.get(item);
       }
       Clipboard.setData(ClipboardData(text: jsonEncode(data))).then(
-        (value) => MotionToast.success(
-          title: Text(AppLocalizations.of(context)!.exportSetting),
-          description: Text(AppLocalizations.of(context)!.success),
-        ).show(context),
+        (value) => EasyLoading.showToast(
+            "${AppLocalizations.of(context)!.exportSetting}: ${AppLocalizations.of(context)!.success}"),
       );
     });
   }
@@ -135,10 +132,8 @@ class _SettingState extends State<Setting> {
   void _deleteSetting() {
     SharedPreferenceService().prefs.then((value) {
       value.clear();
-      MotionToast.success(
-        title: Text(AppLocalizations.of(context)!.deleteSetting),
-        description: Text(AppLocalizations.of(context)!.success),
-      ).show(context);
+      EasyLoading.showToast(
+          "${AppLocalizations.of(context)!.deleteSetting}: ${AppLocalizations.of(context)!.success}");
     });
   }
 }

@@ -11,17 +11,17 @@ const icmpProtocol = {
   "value": "ICMP",
 };
 
-enum action {
+enum ACTION {
   accept,
   drop,
 }
 
-extension ActionExtension on action {
+extension ActionExtension on ACTION {
   String get name {
     switch (this) {
-      case action.accept:
+      case ACTION.accept:
         return "ACCEPT";
-      case action.drop:
+      case ACTION.drop:
         return "DROP";
       default:
         return "";

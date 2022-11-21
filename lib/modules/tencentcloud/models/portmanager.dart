@@ -1,63 +1,73 @@
+import 'dart:convert';
+
 import 'package:bk_app/modules/tencentcloud/models/common.dart';
 import 'package:bk_app/modules/tencentcloud/utils/constants.dart';
 
 class PortManager {
-  final Map<String, Port> _ports = {};
-  final List<String> _localPorts = [];
-  final List<String> _remotePorts = [];
-  static final PortManager _singleton = PortManager._internal();
-  factory PortManager() => _singleton;
-  PortManager._internal();
+  final Map<String, Port> _uniquePorts = {}; // key: port.id, value: Port
+  final List<String> _portIds = [];
 
-  void add(Port port, {bool isLocal = false}) {
-    _ports[port.id] = port;
-    if (isLocal) {
-      if (_remotePorts.contains(port.id)) {
-        _remotePorts.remove(port.id);
-      }
-      if (!_localPorts.contains(port.id)) {
-        _localPorts.add(port.id);
-      }
-    } else {
-      if (_localPorts.contains(port.id)) {
-        _localPorts.remove(port.id);
-      }
-      if (!_remotePorts.contains(port.id)) {
-        _remotePorts.add(port.id);
-      }
+  void switchOrder(int newIndex, int oldIndex) {
+    if (oldIndex < newIndex) {
+      newIndex -= 1;
+    }
+    _portIds.insert(newIndex, _portIds.removeAt(oldIndex));
+  }
+
+  void closeAllPort() {
+    for (var element in _uniquePorts.values) {
+      element.action = ACTION.drop.name;
     }
   }
 
-  void delete(Port port) {
-    _ports.remove(port.id);
+  bool _isValidIndex(int index) {
+    return index < _portIds.length;
   }
 
-  // get sorted ports
-  List<Port> get sortedPorts {
-    return _ports.values.toList()..sort((a, b) => a.port.compareTo(b.port));
+  void addOrUpdate(Port port) {
+    if (_uniquePorts.containsKey(port.id)) {
+      _uniquePorts[port.id] = port;
+      return;
+    }
+    _uniquePorts[port.id] = port;
+    _portIds.add(port.id);
   }
 
-  List<dynamic> toJson() {
-    return _ports.values.toList();
+  bool update(Port port) {
+    if (!_uniquePorts.containsKey(port.id)) {
+      return false;
+    }
+    _uniquePorts[port.id] = port;
+    return true;
   }
 
-  void remove(Port port) {
-    _ports.remove(port.id);
-    _localPorts.remove(port.id);
-    _remotePorts.remove(port.id);
+  Port? getByIndex(int index) {
+    if (_isValidIndex(index)) {
+      return _uniquePorts[_portIds[index]];
+    }
+    return null;
   }
 
-  int get count => _ports.length;
+  bool deleteByIndex(int index) {
+    if (!_isValidIndex(index)) {
+      return false;
+    }
+    _uniquePorts.remove(_portIds.removeAt(index));
+    return true;
+  }
+
+  String toJson() {
+    List<Port> data = [];
+    for (var portId in _portIds) {
+      data.add(_uniquePorts[portId]!);
+    }
+    return jsonEncode(data, toEncodable: (Object? e) => (e as Port).toJson());
+  }
+
+  int get count => _uniquePorts.length;
 
   void clear() {
-    _ports.clear();
-    _localPorts.clear();
-    _remotePorts.clear();
-  }
-
-  void updateLocalPortToClose() {
-    for (var portId in _localPorts) {
-      _ports[portId]?.action = action.drop.name;
-    }
+    _uniquePorts.clear();
+    _portIds.clear();
   }
 }

@@ -88,16 +88,52 @@
   "@modules_tencentcloud_confirm": {
     "description": "确认"
   },
+  "modules_tencentcloud_notconfigured": "未设置参数",
+  "@modules_tencentcloud_notconfigured": {
+    "description": "未设置参数"
+  },
+  "modules_tencentcloud_opening": "正在开启...",
+  "@modules_tencentcloud_opening": {
+    "description": "开启端口"
+  },
+  "modules_tencentcloud_closing": "正在关闭...",
+  "@modules_tencentcloud_closing": {
+    "description": "关闭端口"
+  },
   "language": "语言",
   "@language": {
     "description": "语言"
+  },
+  "selectLanguage": "请选择语言",
+  "@selectLanguage": {
+    "description": "选择语言"
   },
   "modules_qrcode_name": "二维码",
   "@modules_qrcode_name": {
     "description": "二维码"
   },
-  "modules_qrcode_desp": "扫描二维码",
+  "modules_qrcode_desp": "扫描/生成二维码",
   "@modules_qrcode_desp": {
-    "description": "扫描二维码"
+    "description": "扫描/生成二维码"
+  },
+  "modules_qrcode_scan": "扫描",
+  "@modules_qrcode_scan": {
+    "description": "扫描"
+  },
+  "modules_qrcode_generate": "生成",
+  "@modules_qrcode_generate": {
+    "description": "生成"
+  },
+  "modules_qrcode_image_pick": "选择图片",
+  "@modules_qrcode_image_pick": {
+    "description": "选择图片"
+  },
+  "modules_weibo_name": "微博",
+  "@modules_weibo_name": {
+    "description": "微博"
+  },
+  "modules_weibo_desp": "微博热搜",
+  "@modules_weibo_desp": {
+    "description": "微博热搜"
   }
 }

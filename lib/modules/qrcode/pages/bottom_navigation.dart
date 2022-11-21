@@ -1,19 +1,20 @@
-import 'package:bk_app/pages/home.dart';
-import 'package:bk_app/pages/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'scanner.dart';
+import 'generator.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({Key? key}) : super(key: key);
 
   @override
-  State<BottomNavigation> createState() => _BottomNavigationState();
+  _BottomNavigationState createState() => _BottomNavigationState();
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {
   final List<Widget Function(BuildContext)> _nav = [
-    (BuildContext context) => Home(key: UniqueKey()),
-    (BuildContext context) => const Setting(),
+    (BuildContext context) => const Scanner(),
+    (BuildContext context) => const Generator(),
   ];
   int _currentIndex = 0;
   @override
@@ -30,27 +31,25 @@ class _BottomNavigationState extends State<BottomNavigation> {
         },
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: const Icon(Icons.home_outlined),
-            label: AppLocalizations.of(context)!.home,
+            icon: const Icon(Icons.qr_code_scanner_outlined),
+            label: AppLocalizations.of(context)!.modules_qrcode_scan,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.settings_outlined),
-            label: AppLocalizations.of(context)!.setting,
+            icon: const Icon(Icons.fiber_new_outlined),
+            label: AppLocalizations.of(context)!.modules_qrcode_generate,
           ),
         ],
       ),
     );
   }
 
-  PreferredSizeWidget _buildAppBar() {
+  PreferredSizeWidget? _buildAppBar() {
     switch (_currentIndex) {
       case 0:
-        return AppBar(
-          title: Text(AppLocalizations.of(context)!.home),
-        );
+        return null;
       case 1:
         return AppBar(
-          title: Text(AppLocalizations.of(context)!.setting),
+          title: Text(AppLocalizations.of(context)!.modules_qrcode_generate),
         );
       default:
         return AppBar(

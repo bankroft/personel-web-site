@@ -1,5 +1,9 @@
 import 'dart:convert';
 
+import 'package:bk_app/widgets/empty.dart';
+import 'package:bk_app/widgets/mcard.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+
 import '../utils/constants.dart';
 import '../widgets/add.dart';
 
@@ -7,7 +11,6 @@ import '../models/apiresponse.dart';
 import '../models/common.dart';
 import '../models/portmanager.dart';
 import 'package:dio/dio.dart';
-import 'package:motion_toast/motion_toast.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../config.dart';
@@ -26,6 +29,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   late SharedPreferences prefs;
   late bool configured = false;
+  final PortManager _portManager = PortManager();
 
   late String _instanceId;
 
@@ -54,12 +58,17 @@ class _HomeState extends State<Home> {
         _instanceId =
             prefs.getString(buildSharedPreferenceKey(moduleKey, "InstanceId"))!;
         configured = true;
-        reload();
+        _reload();
       }
     });
   }
 
-  Future<void> reload() async {
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  Future<void> _reload() async {
     PortManager().clear();
     setState(() {});
     if (!configured) {
@@ -69,10 +78,10 @@ class _HomeState extends State<Home> {
         buildSharedPreferenceKey(moduleKey, "CachePorts-$_instanceId"))) {
       final cachePorts = prefs.getString(
           buildSharedPreferenceKey(moduleKey, "CachePorts-$_instanceId"))!;
-      final ports = jsonDecode(cachePorts) as List<dynamic>;
-      for (var element in ports) {
+      final data = jsonDecode(cachePorts) as Map<String, dynamic>;
+      for (var element in data["ports"] as List<dynamic>) {
         final port = Port.fromJson(element);
-        PortManager().add(port, isLocal: true);
+        _portManager.addOrUpdate(port);
       }
       setState(() {});
     }
@@ -81,7 +90,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final sortedPorts = PortManager().sortedPorts;
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.home),
@@ -105,21 +113,42 @@ class _HomeState extends State<Home> {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          await reload();
+          await _reload();
         },
-        child: ListView.separated(
-          physics: const BouncingScrollPhysics(),
-          itemBuilder: (_, index) {
-            return _buildListItem(sortedPorts[index]);
-          },
-          separatorBuilder: (_, __) => const Divider(),
-          itemCount: sortedPorts.length,
-        ),
+        child: _buildListView(),
       ),
     );
   }
 
-  Widget _buildListItem(Port port) {
+  Widget _buildListView() {
+    return _portManager.count > 0
+        ? ReorderableListView.builder(
+            padding: const EdgeInsets.only(top: 8.0),
+            proxyDecorator:
+                (Widget child, int index, Animation<double> animation) {
+              return child;
+            },
+            itemBuilder: (_, index) {
+              return MCard(
+                key: Key("Card_${_portManager.getByIndex(index)!.id}"),
+                child: _buildListItem(index),
+              );
+            },
+            itemCount: _portManager.count,
+            onReorder: (int oldIndex, int newIndex) {
+              _portManager.switchOrder(newIndex, oldIndex);
+              _save();
+              setState(() {});
+            },
+            physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics(),
+            ),
+          )
+        : const Empty();
+  }
+
+  Widget _buildListItem(int index) {
+    final port = _portManager.getByIndex(index)!;
     return Dismissible(
       background: Container(
         color: Colors.red[400],
@@ -174,16 +203,18 @@ class _HomeState extends State<Home> {
         );
       },
       onDismissed: (direction) async {
-        await _close(port);
-        PortManager().remove(port);
-        save();
+        if (port.action == ACTION.accept.name) {
+          await _close(port);
+        }
+        _portManager.deleteByIndex(index);
+        _save();
         setState(() {});
       },
-      key: Key(port.id),
+      key: Key("Dismissable_${port.id}"),
       child: SwitchListTile(
         title: Text("${port.port} ${port.protocol}"),
         subtitle: Text(port.description),
-        value: port.action == action.accept.name ? true : false,
+        value: port.action == ACTION.accept.name ? true : false,
         onChanged: (value) {
           if (value) {
             _open(port);
@@ -197,9 +228,8 @@ class _HomeState extends State<Home> {
 
   Future<void> _reloadFromNet() async {
     if (!configured) {
-      MotionToast.error(
-        description: const Text("TODO"),
-      ).show(context);
+      EasyLoading.showError(
+          AppLocalizations.of(context)!.modules_tencentcloud_notconfigured);
       return;
     }
     await ApiService().post(
@@ -215,24 +245,25 @@ class _HomeState extends State<Home> {
       if (resp.data["FirewallRuleSet"] == null) {
         return;
       }
+      _portManager.closeAllPort();
       final firewallRuleSet = resp.data["FirewallRuleSet"];
       for (var item in firewallRuleSet) {
-        PortManager().add(Port.fromJson(item));
+        _portManager.addOrUpdate(Port.fromJson(item));
       }
-      PortManager().updateLocalPortToClose();
-      save();
+      _save();
       setState(() {});
     });
   }
 
-  Future<bool> save() async {
-    final cachePorts = PortManager().toJson();
+  Future<bool> _save() async {
     return prefs.setString(
         buildSharedPreferenceKey(moduleKey, "CachePorts-$_instanceId"),
-        jsonEncode(cachePorts));
+        '{"ports": ${_portManager.toJson()}}');
   }
 
   Future<void> _open(Port port) async {
+    EasyLoading.show(
+        status: AppLocalizations.of(context)!.modules_tencentcloud_opening);
     await ApiService().post(
       action: "CreateFirewallRules",
       body: {
@@ -241,7 +272,7 @@ class _HomeState extends State<Home> {
           {
             "Protocol": port.protocol,
             "Port": port.port,
-            "Action": action.accept.name,
+            "Action": ACTION.accept.name,
             "FirewallRuleDescription": port.description,
           }
         ]
@@ -249,15 +280,19 @@ class _HomeState extends State<Home> {
     ).then((Response response) {
       final resp = ApiResponse.fromJson(response.data);
       if (resp.isOk()) {
-        port.action = action.accept.name;
-        PortManager().add(port);
-        save();
+        port.action = ACTION.accept.name;
+        _portManager.addOrUpdate(port);
+        _save();
         setState(() {});
+      } else {
+        EasyLoading.showError(AppLocalizations.of(context)!.fail);
       }
-    });
+    }).then((value) => EasyLoading.dismiss());
   }
 
   Future<void> _close(Port port) async {
+    EasyLoading.show(
+        status: AppLocalizations.of(context)!.modules_tencentcloud_closing);
     await ApiService().post(
       action: "DeleteFirewallRules",
       body: {
@@ -273,11 +308,13 @@ class _HomeState extends State<Home> {
     ).then((response) {
       final resp = ApiResponse.fromJson(response.data);
       if (resp.isOk()) {
-        port.action = action.drop.name;
-        PortManager().add(port);
+        port.action = ACTION.drop.name;
+        _portManager.addOrUpdate(port);
         setState(() {});
+      } else {
+        EasyLoading.showError(AppLocalizations.of(context)!.fail);
       }
-    });
-    await save();
+    }).then((value) => EasyLoading.dismiss());
+    await _save();
   }
 }
