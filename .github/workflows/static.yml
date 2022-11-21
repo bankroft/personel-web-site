@@ -36,7 +36,7 @@ jobs:
           flutter-version: '3.3.6'
           channel: 'stable'
       - name: Build
-        run: flutter pub get && flutter build web
+        run: flutter pub get && flutter build web --base-href "/personel-web-site/"
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Upload artifact
