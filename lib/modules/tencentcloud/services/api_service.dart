@@ -89,7 +89,7 @@ class CustomInterceptors extends InterceptorsWrapper {
     const service = 'lighthouse';
     var hashedRequestPayload = sha256hex(payload);
     final canonicalRequest =
-        'POST\n/\n\ncontent-type:application/json; charset=utf-8\nhost:$_sourceHost\n\ncontent-type;host\n$hashedRequestPayload';
+        'POST\n/\n\ncontent-type:application/json; charset=utf-8\nhost:$_host\n\ncontent-type;host\n$hashedRequestPayload';
     final credentialScope = '$date/$service/tc3_request';
     final hashedCanonicalRequest = sha256hex(canonicalRequest);
     final stringToSign =
